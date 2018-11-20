@@ -33,7 +33,6 @@ LAutomata* LAutomataBuilder::build(const string& regular_exp) {
 			if (S.size() < 2) {
 				ERROR();
 			}
-
 			LAutomata* first = S.top();
 			S.pop();
 			LAutomata* second = S.top();

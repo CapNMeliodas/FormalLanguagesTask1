@@ -25,7 +25,7 @@ void Solver::DFS(Node* vertex) {
 	if (current_letter_index > max_end_pos) {	//Прочли что-то большее - обновляем max
 		max_end_pos = current_letter_index;
 	}
-	if (current_letter_index = word.length()) { //Если достигли конца, выходим
+	if (current_letter_index == word.length()) { //Если достигли конца, выходим
 		return;
 	}
 	for (auto next : vertex->ways) {						//ДФС по буквам и эпсилонам
@@ -40,7 +40,7 @@ void Solver::DFS(Node* vertex) {
 	}
 }
 
-int solve(const string& w, const string& regular_exp) {
+int solve(const string& w, const string& regular_exp) {	//Функция для 
 	Solver sol(w);
 	return sol.find_max_substring(regular_exp);
 }
