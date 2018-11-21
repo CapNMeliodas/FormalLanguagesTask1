@@ -3,8 +3,8 @@
 using namespace std;
 
 LAutomata::LAutomata(char symbol) {  		//Строим базовый НКА от одной буквы
-	Node* new_root = new Node();					//(его вид в theory.txt)
-	Node* s = new Node();
+	shared_ptr<Node> new_root(new Node);					//(его вид в theory.txt)
+	shared_ptr<Node> s(new Node);
 	s->terminal = true;
 	terminal = s;
 	root = new_root;
