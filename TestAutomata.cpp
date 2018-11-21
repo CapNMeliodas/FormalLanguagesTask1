@@ -5,14 +5,14 @@ using namespace std;
 vector<vector<std::tuple<int, char ,int>>> Tester::correct_automatas;
 std::vector<LAutomata*> Tester::automatas;
 
-void Tester::SetUpAutomata() {
+void Tester::SetUpAutomata() {	//Строим автоматы по соответствующим тестам
 	LAutomataBuilder builder;
 	Tester::automatas.push_back(builder.build("ab+*"));
 	Tester::automatas.push_back(builder.build("a*b*+"));
 	Tester::automatas.push_back(builder.build("ab.*"));
 };
 
-void Tester::SetUpTestCase() {
+void Tester::SetUpTestCase() {	//Ручками заполняем вектор с правильно построенными автоматами
 	//(a+b)*
 	vector<tuple<int, char ,int>> test;
 	test.push_back(make_tuple(0, 'b', 1));
@@ -54,7 +54,7 @@ vector<tuple<int, char ,int>> Tester::GetElement(size_t index) {
 }
 
 
-TEST_F(Tester, AutomataEQ) {
+TEST_F(Tester, AutomataEQ) {	
   EXPECT_EQ(Tester::GetElement(0), Tester::automatas[0]->get_numeric_automata());
   EXPECT_EQ(Tester::GetElement(1), Tester::automatas[1]->get_numeric_automata());
   EXPECT_EQ(Tester::GetElement(2), Tester::automatas[2]->get_numeric_automata());
