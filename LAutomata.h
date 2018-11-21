@@ -3,10 +3,11 @@
 #include <utility>
 #include <tuple>
 #include <set>
+#include <memory>
 
 struct Node {
 	Node() = default;
-	std::vector<std::pair<Node*, char>> ways; //Вектор ребер из данной вершины:
+	std::vector<std::pair<std::shared_ptr<Node>, char>> ways; //Вектор ребер из данной вершины:
 										 	  //указатель на следующую, и буква
 										      //И Бука по которой переходим
 	bool terminal = false; //Является ил веришна терминальной
@@ -19,7 +20,7 @@ public:
  	LAutomata& operator+=(const LAutomata& right);
  	LAutomata& operator*=(const LAutomata& right);
  	void CliniStar();
- 	std::vector<Node*> get_automata(); 
+ 	std::vector<std::shared_ptr<Node>> get_automata(); 
  	std::vector<std::tuple<int, char, int>> get_numeric_automata();
  	void show_numeric_automata();
  	void show_automata();
@@ -28,7 +29,7 @@ private:
 	void numerize_automata();
 
 	bool is_numerized = false;
-	Node* root;
-	Node* terminal;
-	std::vector<Node*> automata;
+	std::shared_ptr<Node> root;
+	std::shared_ptr<Node> terminal;
+	std::vector<std::shared_ptr<Node>> automata;
 };
