@@ -1,24 +1,39 @@
 cmake_minimum_required(VERSION 3.4)
-project(Testing)
 
+set(PROJECT_NAME project1)
+project(${PROJECT_NAME})
+
+set(CMAKE_CXX_FLAGS "-g -Wall")
 set(CMAKE_CXX_STANDARD 11)
 
-find_package(GTest REQUIRED)
-find_package(Threads REQUIRED)
+set(CMAKE_BUILD_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/build)
 
-include_directories(${GTEST_INCLUDE_DIRS})
+set(COMMON_INCLUDES ${PROJECT_SOURCE_DIR}/include)
+include_directories(${COMMON_INCLUDES})
+file(GLOB SRC_FILES ${PROJECT_SOURCE_DIR}/src/*.cpp)
+file(GLOB TEST_SRC_FILES ${PROJECT_SOURCE_DIR}/test/*.cpp)
+list(REMOVE_ITEM SRC_FILES ${PROJECT_SOURCE_DIR}/src/nier_automata.cpp)
 
-add_executable(
-	nier_automata.cpp
-	cmake_test.cpp
-	LAutomata.cpp
-	LAutomataBuilder.cpp
-	Solver.cpp
-	TestAutomata.cpp
-	TestSolver.cpp
-)
+add_library(project1_lib ${SRC_FILES})
+add_executable(project1 ${PROJECT_SOURCE_DIR}/src/nier_automata.cpp)
 
-target_link_libraries(RunTests ${GTEST_LIBRARIES} Threads::Threads)
+target_link_libraries(project1 project1_lib)
 
-enable_testing()
-add_test(Tests RunTests)
+#Testing
+option(BUILD_TESTS "Build all tests." OFF)
+
+if (BUILD_TESTS)
+	add_subdirectory(ext/gtest-1.8.0)
+	enable_testing()
+
+	include_directories(${gtest_SOURCE_DIR}/include ${gtest_SOURCE_DIR})
+
+  	add_executable(runUnitTests ${TEST_SRC_FILES})
+
+  	target_link_libraries(runUnitTests gtest gtest_main)
+
+  	target_link_libraries(runUnitTests project1_lib)
+
+  	add_test(UnitTests runUnitTests)
+
+endif()
